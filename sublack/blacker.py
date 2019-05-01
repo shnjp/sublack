@@ -155,6 +155,12 @@ class Black:
 
         cmd = sublime.expand_variables(cmd, self.variables)
 
+        if not os.path.exists(cmd):
+            from .utils import find_pyproject
+            test = find_pyproject(self.view).parent / cmd
+            if test.exists():
+                cmd = str(test)
+
         # set  black in input/ouput mode with -
         cmd = [cmd, "-"]
 
